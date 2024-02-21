@@ -1,3 +1,8 @@
+//Create a player class object with the object storing the levels and the location
+//contemplating whether the level should be stored here as the level comparison
+//can be done between the boxes with player status=3 and the other boxes instead
+const gameBoard = document.querySelector("#gameBoard");
+
 class Player {
   constructor(levels = 0, location) {
     this.level = levels;
@@ -18,7 +23,7 @@ class Box {
   }
 }
 
-function createBoxes() {
+function createBoardData() {
   numList = [0, 1, 2, 3, 4];
   const board = {};
   id = 0;
@@ -38,7 +43,7 @@ function createBoxes() {
 //   board = ["", "", "", "", "", "", "", "", "", "", "", "", "", "", ""];
 // }
 
-board = createBoxes();
+board = createBoardData();
 
 console.log(board);
 
@@ -55,3 +60,19 @@ console.log(board);
 console.log(board);
 console.log(board);
 console.log(board[1].boxLocatation);
+
+testBoard = [];
+
+for (let i = 0; i < 25; i++) {
+  testBoard.push(i);
+}
+
+function createBoard() {
+  Object.keys(board).forEach(() => {
+    const square = document.createElement("div");
+    square.classList.add("square");
+    gameBoard.append(square);
+  });
+}
+
+createBoard();
