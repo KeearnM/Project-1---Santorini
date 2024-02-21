@@ -1,6 +1,7 @@
 //Create a player class object with the object storing the levels and the location
 //contemplating whether the level should be stored here as the level comparison
 //can be done between the boxes with player status=3 and the other boxes instead
+
 const gameBoard = document.querySelector("#gameBoard");
 
 class Player {
@@ -32,7 +33,7 @@ function createBoardData() {
       id += 1;
       let obj = {};
       obj[entry] = i;
-      let boxClass = new Box(obj);
+      let boxClass = new Box(obj, id);
       board[id] = boxClass;
     }
   });
@@ -68,11 +69,26 @@ for (let i = 0; i < 25; i++) {
 }
 
 function createBoard() {
+  setId = 1;
   Object.keys(board).forEach(() => {
     const square = document.createElement("div");
     square.classList.add("square");
+    square.id = setId;
+    setId += 1;
     gameBoard.append(square);
   });
 }
 
 createBoard();
+
+const boardBox = document.querySelectorAll("#gameBoard .square");
+
+console.log(boardBox);
+
+boardBox.forEach((square) => {
+  square.addEventListener("click", spawn);
+});
+
+function spawn(e) {
+  e.target.innerHTML = playerChar;
+}
