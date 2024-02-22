@@ -22,8 +22,13 @@ class Box {
   playerUpdate() {
     this.playerStatus = !bool;
   }
+
+  levelUpdates(x) {
+    this.levels = x;
+  }
 }
 
+//create the object containing the class object
 function createBoardData() {
   numList = [0, 1, 2, 3, 4];
   const board = {};
@@ -40,36 +45,12 @@ function createBoardData() {
   return board;
 }
 
-// function board() {
-//   board = ["", "", "", "", "", "", "", "", "", "", "", "", "", "", ""];
-// }
-
 board = createBoardData();
 
-console.log(board);
-
-// board = {};
-
-// for (let i = 0; i < 5; i++) {
-//   let list = [];
-//   for (let j = 0; j < 5; j++) {
-//     list.push(j);
-//   }
-//   board[i] = list;
-// }
-
-console.log(board);
-console.log(board);
-console.log(board[1].boxLocatation);
-
-testBoard = [];
-
-for (let i = 0; i < 25; i++) {
-  testBoard.push(i);
-}
-
+//create the board in HTML
 function createBoard() {
   setId = 1;
+  //iterate through my dictionary to create the board
   Object.keys(board).forEach(() => {
     const square = document.createElement("div");
     square.classList.add("square");
@@ -78,6 +59,8 @@ function createBoard() {
     gameBoard.append(square);
   });
 }
+
+//Game function area
 
 createBoard();
 
@@ -89,14 +72,7 @@ const once = {
   once: true,
 };
 
-// document.body.addEventListener(
-//   "click",
-//   () => {
-//     console.log("I run only once! 😇");
-//   },
-//   { once: true }
-// );
-
+//Event listener one to initiate the player spawning phase
 boardBox.forEach((square) => {
   square.addEventListener("click", spawn);
 }, once);
@@ -108,16 +84,52 @@ function spawn(e) {
   console.log(a.length);
 }
 
+//second event listener to remove the spawning feature once there are two players on the board
 boardBox.forEach((square) => {
   square.addEventListener("click", removeListener);
 });
 
-function removeListener(test) {
+function removeListener() {
   const playerCharCount = document.querySelectorAll("#playerChar");
   const allSquare = document.querySelectorAll(".square");
-  if (playerCharCount.length === 2) {
+  if (playerCharCount.length === 4) {
     for (const i of allSquare) {
-      i.replaceWith(i.cloneNode(true));
+      i.removeEventListener("click", spawn);
     }
+    document.querySelector("#gameStatusDiv").innerText = "Player spawn ended";
   }
 }
+
+//Start of the moving feature
+
+boardBox.forEach((square) => {
+  square.setAttribute("draggable", "true");
+});
+
+boardBox.forEach((square) => {
+  square.addEventListener("dragstart", dragStart);
+  square.addEventListener("dragover", dragOver);
+  square.addEventListener("drop", dropItem);
+});
+
+let startingBox;
+let draggedItem;
+
+function dragStart(e) {
+  startingBox = e.target;
+  draggedItem = e.target.innerHTML;
+}
+
+function dragOver(e) {
+  e.preventDefault();
+}
+
+function dropItem(e) {
+  e.target.innerHTML = playerChar;
+  startingBox.innerHTML = "";
+  //remove element from startingBox variable here
+}
+
+console.log(startingBox);
+
+//update the data structure in javascript maybe? - iterate through the board in html then update in javascript maybe
