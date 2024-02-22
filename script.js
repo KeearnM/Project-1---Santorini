@@ -85,10 +85,39 @@ const boardBox = document.querySelectorAll("#gameBoard .square");
 
 console.log(boardBox);
 
+const once = {
+  once: true,
+};
+
+// document.body.addEventListener(
+//   "click",
+//   () => {
+//     console.log("I run only once! 😇");
+//   },
+//   { once: true }
+// );
+
 boardBox.forEach((square) => {
   square.addEventListener("click", spawn);
-});
+}, once);
 
 function spawn(e) {
   e.target.innerHTML = playerChar;
+  console.log(boardBox);
+  const a = document.querySelectorAll("#playerChar");
+  console.log(a.length);
+}
+
+boardBox.forEach((square) => {
+  square.addEventListener("click", removeListener);
+});
+
+function removeListener(test) {
+  const playerCharCount = document.querySelectorAll("#playerChar");
+  const allSquare = document.querySelectorAll(".square");
+  if (playerCharCount.length === 2) {
+    for (const i of allSquare) {
+      i.replaceWith(i.cloneNode(true));
+    }
+  }
 }
