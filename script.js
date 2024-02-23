@@ -125,14 +125,46 @@ function dragOver(e) {
   e.preventDefault();
 }
 
+function edgeChecker(start, end) {
+  testarr = [1, 6, 11, 16, 21];
+  testarrtwo = [5, 10, 15, 20, 25];
+  result = false;
+  testarr.forEach((x, index) => {
+    const y = testarrtwo[index];
+    console.log("start:", start, x);
+    console.log("end: ", end, y);
+    if (x === Number(start) && y === Number(end)) {
+      result = true;
+    } else if (y === Number(start) && x === Number(end)) {
+      result = true;
+    }
+  });
+  return result;
+}
+
 function moveLogic(startingBox, endingBox) {
   if (startingBox - endingBox == 5 || startingBox - endingBox == -5) {
     return true;
   } else if (startingBox - endingBox == 1 || startingBox - endingBox == -1) {
     return true;
+  } else if (startingBox - endingBox == 6 || startingBox - endingBox == -6) {
+    return true;
+  } else if (startingBox - endingBox == 4 || startingBox - endingBox == -4) {
+    if (edgeChecker(startingBox, endingBox) === true) {
+      return false;
+    } else {
+      return true;
+    }
   } else {
     return false;
   }
+}
+
+function checkEdges(edgeNumber) {
+  arr = [1, 6, 11, 16, 21];
+  testArr = [Number(edgeNumber)];
+  result = arr.some((r) => testArr.includes(r));
+  return result;
 }
 
 console.log(moveLogic(startingBox.id, 1));
@@ -142,13 +174,14 @@ function dropItem(e) {
   let end = endingBox.id;
   let start = startingBox.id;
   let validMove = moveLogic(start, end);
+  let checkEdge = checkEdges(start);
+  console.log(start);
+  console.log(end);
+  console.log(checkEdge);
   if (validMove === true) {
     e.target.innerHTML = playerChar;
     startingBox.innerHTML = "";
   }
-  // e.target.innerHTML = playerChar;
-  // startingBox.innerHTML = "";
-  //remove element from startingBox variable here
 }
 
 console.log(startingBox);
