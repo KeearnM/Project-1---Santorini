@@ -114,6 +114,7 @@ boardBox.forEach((square) => {
 
 let startingBox;
 let draggedItem;
+let endingBox;
 
 function dragStart(e) {
   startingBox = e.target;
@@ -124,9 +125,29 @@ function dragOver(e) {
   e.preventDefault();
 }
 
+function moveLogic(startingBox, endingBox) {
+  if (startingBox - endingBox == 5 || startingBox - endingBox == -5) {
+    return true;
+  } else if (startingBox - endingBox == 1 || startingBox - endingBox == -1) {
+    return true;
+  } else {
+    return false;
+  }
+}
+
+console.log(moveLogic(startingBox.id, 1));
+
 function dropItem(e) {
-  e.target.innerHTML = playerChar;
-  startingBox.innerHTML = "";
+  endingBox = e.target;
+  let end = endingBox.id;
+  let start = startingBox.id;
+  let validMove = moveLogic(start, end);
+  if (validMove === true) {
+    e.target.innerHTML = playerChar;
+    startingBox.innerHTML = "";
+  }
+  // e.target.innerHTML = playerChar;
+  // startingBox.innerHTML = "";
   //remove element from startingBox variable here
 }
 
