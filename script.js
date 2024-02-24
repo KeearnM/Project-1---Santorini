@@ -125,14 +125,16 @@ function dragOver(e) {
   e.preventDefault();
 }
 
+//The two function here validate whether the box the player model is dragged to is valid
+//if it is valid the functions will return a boolean which I will use in the move function to
+//validate possible movements
+
 function edgeChecker(start, end) {
-  testarr = [1, 6, 11, 16, 21];
-  testarrtwo = [5, 10, 15, 20, 25];
+  leftEdge = [1, 6, 11, 16, 21];
+  rightEdge = [5, 10, 15, 20, 25];
   result = false;
-  testarr.forEach((x, index) => {
-    const y = testarrtwo[index];
-    console.log("start:", start, x);
-    console.log("end: ", end, y);
+  leftEdge.forEach((x, index) => {
+    const y = rightEdge[index];
     if (x === Number(start) && y === Number(end)) {
       result = true;
     } else if (y === Number(start) && x === Number(end)) {
@@ -167,14 +169,12 @@ function checkEdges(edgeNumber) {
   return result;
 }
 
-console.log(moveLogic(startingBox.id, 1));
-
 function dropItem(e) {
   endingBox = e.target;
   let end = endingBox.id;
   let start = startingBox.id;
   let validMove = moveLogic(start, end);
-  let checkEdge = checkEdges(start);
+  let checkEdge = edgeChecker(start, end);
   console.log(start);
   console.log(end);
   console.log(checkEdge);
@@ -184,6 +184,24 @@ function dropItem(e) {
   }
 }
 
-console.log(startingBox);
+//Build Section
+
+function build(playerId) {
+  x = document.querySelectorAll("#gameBoard .square");
+  possibleBuild = [playerId - 5, playerId + 5, playerId + 1, playerId - 1];
+  //remove negative numbers and numbers that are not ids in the gameBoard div
+
+  x.forEach((box) => {
+    box.addEventListener("click", build);
+  });
+
+  function build(e) {
+    console.log(e.target);
+    e.target.innerHTML = building;
+  }
+}
+
+let buildButton = document.querySelector("#buildButton");
+buildButton.addEventListener("click", build);
 
 //update the data structure in javascript maybe? - iterate through the board in html then update in javascript maybe
