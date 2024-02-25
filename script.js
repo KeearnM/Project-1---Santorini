@@ -3,6 +3,8 @@
 //can be done between the boxes with player status=3 and the other boxes instead
 
 const gameBoard = document.querySelector("#gameBoard");
+let gameState;
+let player = "one";
 
 class Player {
   constructor(levels = 0, location) {
@@ -48,13 +50,14 @@ function createBoardData() {
 board = createBoardData();
 
 //create the board in HTML
-function createBoard() {
+function createBoard(data) {
   setId = 1;
   //iterate through my dictionary to create the board
-  Object.keys(board).forEach(() => {
+  Object.keys(data).forEach(() => {
     const square = document.createElement("div");
     square.classList.add("square");
     square.id = setId;
+    square.classList.add("level-zero");
     setId += 1;
     gameBoard.append(square);
   });
@@ -62,146 +65,9 @@ function createBoard() {
 
 //Game function area
 
-createBoard();
+let boardData = createBoardData();
+createBoard(board);
 
 const boardBox = document.querySelectorAll("#gameBoard .square");
 
 console.log(boardBox);
-
-const once = {
-  once: true,
-};
-
-//Event listener one to initiate the player spawning phase
-boardBox.forEach((square) => {
-  square.addEventListener("click", spawn);
-}, once);
-
-function spawn(e) {
-  e.target.innerHTML = playerChar;
-  console.log(boardBox);
-  const a = document.querySelectorAll("#playerChar");
-  console.log(a.length);
-}
-
-//second event listener to remove the spawning feature once there are two players on the board
-boardBox.forEach((square) => {
-  square.addEventListener("click", removeListener);
-});
-
-function removeListener() {
-  const playerCharCount = document.querySelectorAll("#playerChar");
-  const allSquare = document.querySelectorAll(".square");
-  if (playerCharCount.length === 4) {
-    for (const i of allSquare) {
-      i.removeEventListener("click", spawn);
-    }
-    document.querySelector("#gameStatusDiv").innerText = "Player spawn ended";
-  }
-}
-
-//Start of the moving feature
-
-boardBox.forEach((square) => {
-  square.setAttribute("draggable", "true");
-});
-
-boardBox.forEach((square) => {
-  square.addEventListener("dragstart", dragStart);
-  square.addEventListener("dragover", dragOver);
-  square.addEventListener("drop", dropItem);
-});
-
-let startingBox;
-let draggedItem;
-let endingBox;
-
-function dragStart(e) {
-  startingBox = e.target;
-  draggedItem = e.target.innerHTML;
-}
-
-function dragOver(e) {
-  e.preventDefault();
-}
-
-//The two function here validate whether the box the player model is dragged to is valid
-//if it is valid the functions will return a boolean which I will use in the move function to
-//validate possible movements
-
-function edgeChecker(start, end) {
-  leftEdge = [1, 6, 11, 16, 21];
-  rightEdge = [5, 10, 15, 20, 25];
-  result = false;
-  leftEdge.forEach((x, index) => {
-    const y = rightEdge[index];
-    if (x === Number(start) && y === Number(end)) {
-      result = true;
-    } else if (y === Number(start) && x === Number(end)) {
-      result = true;
-    }
-  });
-  return result;
-}
-
-function moveLogic(startingBox, endingBox) {
-  if (startingBox - endingBox == 5 || startingBox - endingBox == -5) {
-    return true;
-  } else if (startingBox - endingBox == 1 || startingBox - endingBox == -1) {
-    return true;
-  } else if (startingBox - endingBox == 6 || startingBox - endingBox == -6) {
-    return true;
-  } else if (startingBox - endingBox == 4 || startingBox - endingBox == -4) {
-    if (edgeChecker(startingBox, endingBox) === true) {
-      return false;
-    } else {
-      return true;
-    }
-  } else {
-    return false;
-  }
-}
-
-function checkEdges(edgeNumber) {
-  arr = [1, 6, 11, 16, 21];
-  testArr = [Number(edgeNumber)];
-  result = arr.some((r) => testArr.includes(r));
-  return result;
-}
-
-function dropItem(e) {
-  endingBox = e.target;
-  let end = endingBox.id;
-  let start = startingBox.id;
-  let validMove = moveLogic(start, end);
-  let checkEdge = edgeChecker(start, end);
-  console.log(start);
-  console.log(end);
-  console.log(checkEdge);
-  if (validMove === true) {
-    e.target.innerHTML = playerChar;
-    startingBox.innerHTML = "";
-  }
-}
-
-//Build Section
-
-function build(playerId) {
-  x = document.querySelectorAll("#gameBoard .square");
-  possibleBuild = [playerId - 5, playerId + 5, playerId + 1, playerId - 1];
-  //remove negative numbers and numbers that are not ids in the gameBoard div
-
-  x.forEach((box) => {
-    box.addEventListener("click", build);
-  });
-
-  function build(e) {
-    console.log(e.target);
-    e.target.innerHTML = building;
-  }
-}
-
-let buildButton = document.querySelector("#buildButton");
-buildButton.addEventListener("click", build);
-
-//update the data structure in javascript maybe? - iterate through the board in html then update in javascript maybe

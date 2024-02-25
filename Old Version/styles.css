@@ -29,16 +29,6 @@ body {
   height: 50px;
 }
 
-.viable:hover {
-  display: inline-block;
-  vertical-align: middle;
-  -webkit-transform: perspective(1px) translateZ(0);
-  transform: perspective(1px) translateZ(0);
-  box-shadow: 0 0 1px rgba(0, 0, 0, 0);
-  -webkit-transition-duration: 0.5s;
-  transition-duration: 0.5s;
-}
-
 /* .square svg {
   height: 50px;
   transform: rotateX(51deg) rotateZ(43deg);
