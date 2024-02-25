@@ -14,7 +14,7 @@ function place(x) {
   document.addEventListener(
     "click",
     (e) => {
-      e.target.innerHTML = char;
+      e.target.innerHTML = theChar;
       move();
     },
     {
@@ -23,18 +23,41 @@ function place(x) {
   );
 }
 
+// function move(x = 15) {
+//   //   char = document.querySelector("#playerChar");
+//   //   char.setAttribute("draggable", "true");
+//   validMove = checkValidLocation(x);
+//   for (let i of validMove) {
+//     a = document.getElementById(i);
+//     // a.classList.add("viable");
+//     a.addEventListener(
+//       "click",
+//       (e) => {
+//         if (e.target.innerHTML === "") {
+//           e.target.innerHTML = theChar;
+//           document.getElementById(x).innerHTML = "";
+//         }
+//       },
+//       { once: true }
+//     );
+//   }
+// }
+
 function move(x = 15) {
-  //   char = document.querySelector("#playerChar");
-  //   char.setAttribute("draggable", "true");
   validMove = checkValidLocation(x);
-  for (let i of validMove) {
-    a = document.getElementById(i);
-    // a.classList.add("viable");
-    a.addEventListener("click", (e) => {
-      e.target.innerHTML = theChar;
-      document.getElementById(x).innerHTML = "";
-    });
-  }
+
+  document.getElementById("gameBoard").addEventListener(
+    "click",
+    (e) => {
+      console.log(validMove);
+      console.log(e.target.id);
+      if (validMove.includes(Number(e.target.id))) {
+        e.target.innerHTML = theChar;
+        document.getElementById(x).innerHTML = "";
+      }
+    },
+    { once: true }
+  );
 }
 
 function build(x = 15) {
@@ -111,4 +134,5 @@ function checkValidLocation(id) {
 
 // place(thePlayer);
 // console.log(document.getElementById(1));
-build();
+place();
+// build(1);
