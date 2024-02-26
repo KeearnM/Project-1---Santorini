@@ -14,6 +14,7 @@ function place(x) {
   document.addEventListener(
     "click",
     (e) => {
+      e.target.classList.add("player");
       e.target.innerHTML = theChar;
       move();
     },
@@ -54,6 +55,8 @@ function move(x = 15) {
       if (validMove.includes(Number(e.target.id))) {
         e.target.innerHTML = theChar;
         document.getElementById(x).innerHTML = "";
+        document.getElementById(x).classList.remove("player");
+        e.target.classList.add("player");
       }
     },
     { once: true }
@@ -79,6 +82,9 @@ function build(x = 15) {
         e.target.classList.remove("level-two");
         e.target.classList.add("level-three");
       }
+
+      updateData();
+      console.log(boardData);
     });
   }
 }
@@ -132,7 +138,37 @@ function checkValidLocation(id) {
   return possibleLocation;
 }
 
+function updateData(x = boardData) {
+  a = document.querySelectorAll(".square");
+  console.log(a);
+  for (let i of a) {
+    squareClass = i.className.split(" ");
+    if (squareClass[1] === "level-one") {
+      console.log(i.id);
+      x[i.id].levels = 1;
+    } else if (squareClass[1] === "level-two") {
+      x[i.id].levels = 2;
+    } else if (squareClass[1] === "level-three") {
+      x[i.id].levels = 3;
+    }
+
+    if (i.classList.contains("player")) {
+      x[i.id].playerStatus = true;
+    }
+  }
+}
+
+function winCondition(x = boardData) {
+  for (const [k, v] of Object.entries(x)) {
+    if (v.levels === 3 && v.playerStatus === true) {
+      current = "Game Over";
+    }
+  }
+}
+
 // place(thePlayer);
 // console.log(document.getElementById(1));
 place();
+updateData();
+build();
 // build(1);
