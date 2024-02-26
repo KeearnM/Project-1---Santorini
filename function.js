@@ -17,6 +17,7 @@ function place(x) {
       e.target.classList.add("player");
       e.target.innerHTML = theChar;
       move();
+      updateData();
     },
     {
       once: true,
@@ -143,19 +144,22 @@ function updateData(x = boardData) {
   console.log(a);
   for (let i of a) {
     squareClass = i.className.split(" ");
-    if (squareClass[1] === "level-one") {
+    //change the index method to use check if array contains
+    if (squareClass.includes("level-one")) {
       console.log(i.id);
       x[i.id].levels = 1;
-    } else if (squareClass[1] === "level-two") {
+    } else if (squareClass.includes("level-two")) {
       x[i.id].levels = 2;
-    } else if (squareClass[1] === "level-three") {
+    } else if (squareClass.includes("level-three")) {
       x[i.id].levels = 3;
     }
 
-    if (i.classList.contains("player")) {
+    if (i.classList.contains("player") === true) {
       x[i.id].playerStatus = true;
     }
   }
+
+  console.log(x);
 }
 
 function winCondition(x = boardData) {
