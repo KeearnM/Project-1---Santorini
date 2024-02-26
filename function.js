@@ -1,71 +1,62 @@
 let current = "spawn";
-let thePlayer = "two";
+let thePlayer = playerOne;
+let currentPlayer = "one";
+let oppoPlayer = "two";
 let theChar = playerTwo;
+let playerIndicate = "one";
+let placeCount = 0;
 
-function place(x) {
-  let char;
-  if (x === "one") {
-    char = playerOne;
-  } else if (x === "two") {
-    char = playerTwo;
-  }
+function changePlayer() {
+  thePlayer = thePlayer === playerOne ? playerTwo : playerOne;
+  currentPlayer = currentPlayer === "one" ? "two" : "one";
+  oppoPlayer = oppoPlayer === "two" ? "one" : "two";
+}
 
+function changeIndicate() {
+  playerIndicate = playerIndicate === "one" ? "two" : "one";
+}
+
+function place() {
+  console.log(placeCount);
   board = document.querySelector("#gameBoard");
   document.addEventListener(
     "click",
-    (e) => {
-      e.target.classList.add("player");
-      e.target.innerHTML = theChar;
-      move();
-      updateData();
-    },
-    {
-      once: true,
-    }
-  );
-}
-
-// function move(x = 15) {
-//   //   char = document.querySelector("#playerChar");
-//   //   char.setAttribute("draggable", "true");
-//   validMove = checkValidLocation(x);
-//   for (let i of validMove) {
-//     a = document.getElementById(i);
-//     // a.classList.add("viable");
-//     a.addEventListener(
-//       "click",
-//       (e) => {
-//         if (e.target.innerHTML === "") {
-//           e.target.innerHTML = theChar;
-//           document.getElementById(x).innerHTML = "";
-//         }
-//       },
-//       { once: true }
-//     );
-//   }
-// }
-
-function move(x = 15) {
-  validMove = checkValidLocation(x);
-
-  document.getElementById("gameBoard").addEventListener(
-    "click",
-    (e) => {
-      console.log(validMove);
-      console.log(e.target.id);
-      if (validMove.includes(Number(e.target.id))) {
-        e.target.innerHTML = theChar;
-        document.getElementById(x).innerHTML = "";
-        document.getElementById(x).classList.remove("player");
+    function placePlayer(e) {
+      if (placeCount < 2) {
         e.target.classList.add("player");
+        e.target.classList.add(playerIndicate);
+        e.target.innerHTML = thePlayer;
+        placeCount++;
+        console.log(placeCount);
+        changePlayer();
+        changeIndicate();
+        updateData();
+        // move();
+      } else if (placeCount == 2) {
+        document.removeEventListener("click", placePlayer);
+        current = "move";
+        // func();
       }
-    },
-    { once: true }
+    }
+    // {
+    //   once: true,
+    // }
   );
 }
 
-function build(x = 15) {
-  validMove = checkValidLocation(x);
+function getStartId(func) {
+  let start;
+  getId = document
+    .getElementById("gameBoard")
+    .addEventListener("click", (e) => {
+      start = e.target.id;
+      console.log(start);
+      func(start);
+    });
+}
+
+function build(x) {
+  validMove = checkValidLocation(Number(x));
   for (let i of validMove) {
     a = document.getElementById(i);
     console.log(a.classList.contains("level-zero"));
@@ -156,6 +147,8 @@ function updateData(x = boardData) {
 
     if (i.classList.contains("player") === true) {
       x[i.id].playerStatus = true;
+    } else {
+      x[i.id].playerStatus = false;
     }
   }
 
@@ -167,12 +160,34 @@ function winCondition(x = boardData) {
     if (v.levels === 3 && v.playerStatus === true) {
       current = "Game Over";
     }
+
+    checkBlocked = checkValidLocation(k);
+    console.log(checkBlocked);
+    levelDiff = [];
+    for (const i of checkBlocked) {
+      levelDiff.push(x[i].levels - v.levels);
+    }
+    console.log(levelDiff);
+    checkMovable = levelDiff.every((item) => {
+      return item > 1;
+    });
+
+    console.log(checkMovable);
+    if (checkMovable === true) {
+      current = "Game Over";
+    }
+  }
+
+  function htmlState() {
+    state = document.getElementsByClassName("state");
+    state.innerHTML = current;
   }
 }
 
 // place(thePlayer);
 // console.log(document.getElementById(1));
-place();
-updateData();
-build();
+// place(thePlayer);
+// updateData();
+// build();
+// winCondition();
 // build(1);

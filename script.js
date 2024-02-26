@@ -3,8 +3,6 @@
 //can be done between the boxes with player status=3 and the other boxes instead
 
 const gameBoard = document.querySelector("#gameBoard");
-let gameState;
-let player = "one";
 
 class Player {
   constructor(levels = 0, location) {
