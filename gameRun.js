@@ -7,6 +7,7 @@ place();
 startButton.addEventListener("click", startGame);
 
 function startGame() {
+  htmlState();
   console.log("works");
   moveV2();
   htmlState();
@@ -44,10 +45,14 @@ function moveV2() {
     if (validSpot.includes(Number(endingBox.id)) === true) {
       e.target.innerHTML = thePlayer;
       startingBox.innerHTML = "";
+      current = `Player ${currentPlayer} just moved!`;
       startingBox.classList.remove("player");
       endingBox.classList.add("player");
       build(startingBox.id);
       changePlayer();
+      updateData();
+      winCondition();
+      htmlState();
     }
   }
 }

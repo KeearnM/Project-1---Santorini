@@ -1,4 +1,4 @@
-let current = "spawn";
+let current = "Move and Build! Reach 3 stacks and don't get trapped!";
 let thePlayer = playerOne;
 let currentPlayer = "one";
 let oppoPlayer = "two";
@@ -63,14 +63,17 @@ function build(x) {
     a.addEventListener("click", (e) => {
       if (e.target.classList.contains("level-zero")) {
         e.target.innerHTML = buildingOne;
+        current = `Player ${currentPlayer} just built!`;
         e.target.classList.remove("level-zero");
         e.target.classList.add("level-one");
       } else if (e.target.classList.contains("level-one")) {
         e.target.innerHTML = buildingTwo;
+        current = `Player ${currentPlayer} just built!`;
         e.target.classList.remove("level-one");
         e.target.classList.add("level-two");
       } else if (e.target.classList.contains("level-two")) {
         e.target.innerHTML = buildingThree;
+        current = `Player ${currentPlayer} just built!`;
         e.target.classList.remove("level-two");
         e.target.classList.add("level-three");
       }
@@ -132,12 +135,10 @@ function checkValidLocation(id) {
 
 function updateData(x = boardData) {
   a = document.querySelectorAll(".square");
-  console.log(a);
   for (let i of a) {
     squareClass = i.className.split(" ");
     //change the index method to use check if array contains
     if (squareClass.includes("level-one")) {
-      console.log(i.id);
       x[i.id].levels = 1;
     } else if (squareClass.includes("level-two")) {
       x[i.id].levels = 2;
@@ -151,8 +152,6 @@ function updateData(x = boardData) {
       x[i.id].playerStatus = false;
     }
   }
-
-  console.log(x);
 }
 
 function winCondition(x = boardData) {
@@ -177,11 +176,11 @@ function winCondition(x = boardData) {
       current = "Game Over";
     }
   }
+}
 
-  function htmlState() {
-    state = document.getElementsByClassName("state");
-    state.innerHTML = current;
-  }
+function htmlState() {
+  state = document.querySelector(".state");
+  state.innerHTML = current;
 }
 
 // place(thePlayer);
