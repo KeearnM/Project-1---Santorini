@@ -61,19 +61,18 @@ function build(x) {
     a = document.getElementById(i);
     console.log(a.classList.contains("level-zero"));
     a.addEventListener("click", (e) => {
+      updateData();
+      current = `Player ${currentPlayer} just built!`;
       if (e.target.classList.contains("level-zero")) {
         e.target.innerHTML = buildingOne;
-        current = `Player ${currentPlayer} just built!`;
         e.target.classList.remove("level-zero");
         e.target.classList.add("level-one");
       } else if (e.target.classList.contains("level-one")) {
         e.target.innerHTML = buildingTwo;
-        current = `Player ${currentPlayer} just built!`;
         e.target.classList.remove("level-one");
         e.target.classList.add("level-two");
       } else if (e.target.classList.contains("level-two")) {
         e.target.innerHTML = buildingThree;
-        current = `Player ${currentPlayer} just built!`;
         e.target.classList.remove("level-two");
         e.target.classList.add("level-three");
       }
@@ -160,20 +159,31 @@ function winCondition(x = boardData) {
       current = "Game Over";
     }
 
-    checkBlocked = checkValidLocation(k);
-    console.log(checkBlocked);
-    levelDiff = [];
-    for (const i of checkBlocked) {
-      levelDiff.push(x[i].levels - v.levels);
-    }
-    console.log(levelDiff);
-    checkMovable = levelDiff.every((item) => {
-      return item > 1;
-    });
+    if (v.playerStatus === true) {
+      console.log(k);
+      playerLevel = x[k].levels;
+      console.log("playerLevel: ", playerLevel);
+      validMovingSpots = checkValidLocation(k);
+      console.log("valid moving spots: ", validMovingSpots);
+      levelsArray = [];
+      for (let i of validMovingSpots) {
+        levelsArray.push(x[i].levels);
+      }
+      console.log("levels Array: ", levelsArray);
+      levelsArray.map((e) => {
+        return e - 1;
+      });
+      console.log("levels array: ", levelsArray);
 
-    console.log(checkMovable);
-    if (checkMovable === true) {
-      current = "Game Over";
+      checkMovable = levelsArray.every((item) => {
+        return item > 1;
+      });
+
+      console.log(checkMovable);
+
+      if (checkMovable === true) {
+        current = "Game Over";
+      }
     }
   }
 }
@@ -182,11 +192,3 @@ function htmlState() {
   state = document.querySelector(".state");
   state.innerHTML = current;
 }
-
-// place(thePlayer);
-// console.log(document.getElementById(1));
-// place(thePlayer);
-// updateData();
-// build();
-// winCondition();
-// build(1);
