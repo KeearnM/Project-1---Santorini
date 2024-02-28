@@ -1,12 +1,3 @@
-
-# Santorini
-
-This is a javascript html css interpration of the classic board game Santorini
-
-
-
-
-
 ## The Game
 
 Santorini is a grid based game. Every round the players can first move then choose on either an empty grid or on top of an already built building. The game ends when a player either built a three level building and reached the top of it or when all opposing players are rendered immobile.
@@ -25,6 +16,7 @@ Game stage:
 Players can move once per round and build a building, in the current implementation of the game the only winning condition currently is surronding the opposing players and preventing them from moving 
 
 ## Screenshots
+
 
 <img width="638" alt="Fresh Board" src="https://github.com/KeearnM/Santorini/assets/75174570/24937fa3-c4ac-419e-ba80-36bc0be5378d">
 
@@ -46,6 +38,7 @@ More gameplay
 
 Board when one user is fully blocked off
 
+
 ## Current Features
 
 Move Features - Character can move around the board with a maximum limit of 1 tile left,right and diagonally 
@@ -53,3 +46,11 @@ Move Features - Character can move around the board with a maximum limit of 1 ti
 Build Features - Character can build around them with a maximum limit similar to the move features. When a already built building is selected a layer is added to it
 
 Winning Conditions - Board can detect once a character is fully surronded with no way out and declare a "Game Over"
+## Acknowledgements
+
+ - [Making a Jeson Mor Game](https://andry-tino.gitbooks.io/creating-a-jeson-mor-game-in-javascript/content/what-is-jeson-mor.html)
+ - [JavaScript’s DOM Mutation and Promises: ADVANCE JAVASCRIPT](https://medium.com/@rameshsainom/javascripts-dom-mutation-and-promises-advance-javascript-95da5258297c)
+ 
+- [Learn JavaScript by Making Digital Tabletop Games and Web Apps](https://medium.com/@rameshsainom/javascripts-dom-mutation-and-promises-advance-javascript-95da5258297c) 
+
+- [Learn how to manipulate the DOM by building a simple JavaScript color game](https://www.freecodecamp.org/news/learn-how-to-manipulate-the-dom-by-building-a-simple-javascript-color-game-1a3aec1d109a/)
