@@ -24,7 +24,7 @@ Board shown when the user first arrive at the webpage
 
 <img width="732" alt="Placed Player" src="https://github.com/KeearnM/Santorini/assets/75174570/91df8441-3f28-4f61-b098-3b7c18cf7dd7">
 
-Placed the players
+Placing the player - This is the screen users see when the arrive on the board. Here they can press any where on the grid to place their starting characters
 
 <img width="782" alt="Start" src="https://github.com/KeearnM/Santorini/assets/75174570/3707a959-6fe8-4dd7-882e-0a257ae94de4">
 
@@ -36,7 +36,7 @@ More gameplay
 
 <img width="737" alt="Game over" src="https://github.com/KeearnM/Santorini/assets/75174570/92f3ad92-5501-44b5-98de-659f7abc598a">
 
-Board when one user is fully blocked off
+Board when one user is fully blocked off - When the winning conidtion is fulfilled (Trapping one of the players completely) the winnining condition function will trigger and declare a game over
 
 
 ## Current Features
